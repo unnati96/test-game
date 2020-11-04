@@ -8,6 +8,14 @@ const App  = () => {
   const [ finishedCount, updateFinishedCount ] = useState( 0 );
   const [ burstCount, updateBurstCount ] = useState( 0 );
 
+  const onFinish = (e) => {
+    updateFinishedCount( finishedCount + 1 )
+  }
+
+  const onBurst = (e) => {
+    updateBurstCount( burstCount + 1 )
+  };
+
   if( 3 < finishedCount ) {
     return (
       <View style={styles.container}>
@@ -31,8 +39,8 @@ const App  = () => {
                 id = {index}
                 x = { ( windowWidth / 10 ) * index }
                 source={require('./assets/favicon.png')}
-                onFinish = { (e) => { updateFinishedCount( finishedCount + 1 ) } }
-                onBurst = { (e) => { updateBurstCount( burstCount + 1 ) } }
+                onFinish = { onFinish }
+                onBurst = { onBurst }
                 duration = { 2000 * index }
               />
             );
