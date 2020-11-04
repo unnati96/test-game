@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Animated, TouchableWithoutFeedback, View, Dimensions } from 'react-native';
+import { Animated, TouchableWithoutFeedback, Dimensions, View } from 'react-native';
 
 const windowHeight = Dimensions.get('window').height; // can be used to find coordinates
 
@@ -42,16 +42,15 @@ export default class Balloon extends PureComponent {
 
   render() {
     return (
-      <View > 
-      {
         this.state.visible ?
-          (<TouchableWithoutFeedback onPress={this.onClick}>
-            <Animated.Image source={this.props.source} style={[{width: 50,  height: 50}, this.moveAnimation.getLayout()]}/>
-          </TouchableWithoutFeedback>) 
+          (
+            <View style = { {position: 'absolute'} } >
+              <TouchableWithoutFeedback onPress={this.onClick}>
+                <Animated.Image source={this.props.source} style={[{width: 50,  height: 50}, this.moveAnimation.getLayout()]}/>
+              </TouchableWithoutFeedback>
+            </View>
+          )
         : null
-      }
-      
-      </View>
     );
   }
 }
