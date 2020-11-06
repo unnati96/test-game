@@ -5,26 +5,29 @@ const windowWidth = Dimensions.get('window').width; // can be used to find coord
 const windowHeight = Dimensions.get('window').height; // can be used to find coordinates
 
 const BalloonsWrapper = memo( ( props ) => {
+  console.log(props.values)
   return (
-    [3,8,7,5,6,4].map( ( key, index ) => {
+    props.values.map( ( key , index ) => {
       return (
-        <Balloon
-          key = { key }
-          id = { key }
-          x = { ( windowWidth / 10 ) * ( index + 1 ) }
+        key ? <Balloon
+          key = { index }
+          id = { index }
+          x = { Math.random() *  windowWidth }
           source={require('./assets/favicon.png')}
           onFinish = { props.onFinish }
           onBurst = { props.onBurst }
-          duration = { 2000 * key }
-        />
+          duration = { (1500 + props.burstCount * 10 )* Math.round(Math.random() * 10) }
+        /> : null
       );
     } )
   );
 } );
 
 const App  = () => {
+  const arr = new Array(30).fill(1).map(() => (true))
   const [ finishedCount, updateFinishedCount ] = useState( 0 );
   const [ burstCount, updateBurstCount ] = useState( 0 );
+  const [ ballonSequence, updateBallonSequence ] = useState(arr);
 
   const onFinish = (e) => {
     updateFinishedCount( finishedCount + 1 )
@@ -32,9 +35,16 @@ const App  = () => {
 
   const onBurst = (e) => {
     updateBurstCount( burstCount + 1 )
+    const v = ballonSequence;
+    v[e] = false;
+    updateBallonSequence([...v, true, true])
   };
 
-  if( 3 < finishedCount ) {
+  // setInterval(() => {
+  //   updateBallonSequence([...ballonSequence, 1])
+  // }, 1000)
+
+  /* if( 3 < finishedCount ) {
     return (
       <SafeAreaView style={styles.container}>
         <Text style = {styles.textView}>Better Luck next time</Text>
@@ -46,12 +56,15 @@ const App  = () => {
         <Text style = {styles.textView} >Well done total score is {burstCount} out of { burstCount + finishedCount }</Text>
       </SafeAreaView>
     );
-  }
+  } */
+
     return (
       <SafeAreaView style={styles.container}>
         <BalloonsWrapper
+          values =  { ballonSequence }
           onFinish = { onFinish }
           onBurst = { onBurst }
+          burstCount= { burstCount }
         />
       </SafeAreaView>
     );

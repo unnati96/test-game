@@ -7,12 +7,13 @@ export default class Balloon extends PureComponent {
   constructor(props) {
     super(props)
 
+    console.log('there')
     this.state = {
       visible: true,
       bursted: false
     }
 
-    this.moveAnimation = new Animated.ValueXY({ x: props.x, y: windowHeight })
+    this.moveAnimation = new Animated.ValueXY({ x: props.x, y: windowHeight + 100 * Math.random() })
     Animated.sequence([
       Animated.timing(this.moveAnimation, {
         toValue: {x: props.x, y: 0},
